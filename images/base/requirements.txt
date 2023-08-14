@@ -1,0 +1,8 @@
+adlfs
+git+https://github.com/radbrt/eventbased-lineage.git@prefect_event
+snowflake-sqlalchemy
+sqlalchemy
+openai
+python-dotenv
+prefect-azure[blob_storage]
+marvin

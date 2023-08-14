@@ -1,0 +1,4 @@
+.env
+.prefect/
+.github/
+__pycache__/

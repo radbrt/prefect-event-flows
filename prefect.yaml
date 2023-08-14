@@ -1,0 +1,48 @@
+# Welcome to your prefect.yaml file! You can you this file for storing and managing
+# configuration for deploying your flows. We recommend committing this file to source
+# control along with your flow code.
+
+# Generic metadata about this project
+name: Eventflows
+prefect-version: 2.11.3
+
+push:
+    - prefect_azure.deployments.steps.push_to_azure_blob_storage:
+        requires: prefect-azure[blob_storage]
+        container: eventflows
+        folder: eventcode
+        credentials: "{{ prefect.blocks.azure-blob-storage-credentials.eventflows }}"
+
+pull:
+    - prefect_azure.deployments.steps.pull_from_azure_blob_storage:
+        requires: prefect-azure[blob_storage]
+        container: eventflows
+        folder: eventcode
+        credentials: "{{ prefect.blocks.azure-blob-storage-credentials.eventflows }}"
+
+
+# the deployments section allows you to provide configuration for deploying flows
+deployments:
+- name: Load
+  description: Load unemployment data from Statistics Norway
+  entrypoint: flows/load_data/unemployment.py:load_unemployment_data
+  schedule:
+  work_pool:
+    name: workevent
+    work_queue_name: default
+    job_variables:
+      image: radbrt/eventflows:latest
+
+- name: Report
+  entrypoint: flows/reports/unemployment_lfs_monthly.py:update_unemployment_report
+  work_pool:
+    name: workevent
+    work_queue_name: default
+    job_variables:
+      image: radbrt/eventflows:latest
+  triggers:
+    - enabled: true
+      match:
+        lineage.resource.uri: "snowflake://ax61550.west-europe.azure/DBTHOUSE/LANDING/unemployment"
+      expect:
+        - lineage.create
