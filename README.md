@@ -21,6 +21,6 @@ This flow uses the new data in the unemployment table to write a small report ab
 
 
 ## The Lineage repo
-Be aware that the `eventbased-lineage` library that holds the `SnowflakeLineageBlock` class is very young, and under development (as indicated by the fact that I'm using a feature branch here). There will, in all likelihood, be breaking changes. It was initially intended to be an integration with Marques (and to some extent it still is), but it has been adapted to work with prefect events.
+Be aware that the `eventbased-lineage` library (https://github.com/radbrt/eventbased-lineage) that holds the `SnowflakeLineageBlock` class is very young, and under development (as indicated by the fact that I'm using a feature branch here). There will, in all likelihood, be breaking changes. It was initially intended to be an integration with Marques (and to some extent it still is), but it has been adapted to work with prefect events.
 
 It is intended to be extensible, so that new classes to work with other types of storage (postgres, file systems, etc) can be added as we go along.
