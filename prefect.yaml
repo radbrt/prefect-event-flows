@@ -46,3 +46,14 @@ deployments:
         lineage.resource.uri: "snowflake://ax61550.west-europe.azure/DBTHOUSE/LANDING/unemployment"
       expect:
         - lineage.create
+
+# - name: Busy
+#   description: Basically do nothing
+#   entrypoint: flows/busyflow/flow.py:blocky
+#   schedule:
+#   work_pool:
+#     name: workevent
+#     work_queue_name: default
+#     job_variables:
+#       image: radbrt/eventflows:latest
+
